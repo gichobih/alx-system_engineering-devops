@@ -2,9 +2,13 @@
 
 # Function to start the process
 start_process() {
-    /path/to/manage_my_process &
-    echo $! > /var/run/my_process.pid
-    echo "manage_my_process started"
+    if [ -f /var/run/my_process.pid ]; then
+        echo "manage_my_process is already running"
+    else
+        /path/to/manage_my_process &
+        echo $! > /var/run/my_process.pid
+        echo "manage_my_process started"
+    fi
 }
 
 # Function to stop the process
