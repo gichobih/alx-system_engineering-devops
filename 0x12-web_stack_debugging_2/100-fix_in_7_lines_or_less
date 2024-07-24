@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-
 sudo sed -i 's/user www-data;/user nginx;/' /etc/nginx/nginx.conf
 sudo sed -i 's/listen 80;/listen 8080;/' /etc/nginx/sites-available/default
 sudo chmod 644 /etc/nginx/nginx.conf
+pkill apache2
 sudo service nginx stop
 sudo service nginx start
 
