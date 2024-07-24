@@ -5,3 +5,4 @@ sudo chmod 644 /etc/nginx/nginx.conf
 sudo service nginx stop
 sudo service nginx start
 
+
