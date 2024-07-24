@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-sudo sed -i 's/user www-data;/user nginx;/' /etc/nginx/nginx.conf
-sudo sed -i 's/listen 80;/listen 8080;/' /etc/nginx/sites-available/default
-sudo chmod 644 /etc/nginx/nginx.conf
-sudo service nginx stop
-sudo service nginx start
+#  Run Nginx as Nginx 7 lines or less
+sed -i 's/Listen 8080/#Listen 8080/g' /etc/apache2/ports.conf
+sed -i 's/#user www-data;/user nginx;/g' /etc/nginx/nginx.conf
+sed -i 's/80/8080/g' /etc/nginx/sites-available/default
+pkill -1 apache2
+chmod ugo+wrx /etc/apache2/ports.conf /etc/nginx/nginx.conf | sudo -u nginx service nginx restart
 
