@@ -47,8 +47,6 @@ frontend bobbytech-frontend-https
 
 backend bobbytech-backend
         balance roundrobin
-        server 64820-web-01 34.207.64.209:80 check
-        server 64820-web-02 35.153.83.35:80 check
-
-                                                                   
+        server web01 52.91.116.184:80 check
+        server web02 54.172.9.89:80 check                                                                   
 
