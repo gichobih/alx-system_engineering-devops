@@ -1,24 +1,30 @@
-#!/usr/bi/python3
+#!/usr/bin/python3
 
-"""function that queries the Reddit API and prints the 
-titles of the first 10 hot posts listed for a given subreddit."""
+"""
+function that queries the Reddit API and prints the 
+titles of the first 10 hot posts listed for a given subreddit.
+"""
 
 import requests
 from sys import argv
 
-def top_ten(subreddit)
+def top_ten(subreddit):
+
    """
-   return top ten posts from a given subreddit
+   Returns top ten posts from a given subreddit.
    """
    usr = {"User-Agent": "lizzie"}
-   url = requests.get("https://www.reddit.com/r/{}/hot/.json?limit=10"
-   .format(subreddit),headers = user).json()
+   url = requests.get(
+           "https://www.reddit.com/r/{}/hot/.json?limit=10".format(subreddit),
+           headers = usr,
+           allow_redirect= False
+    ).json()
 
    try:
        for post in url.get("data").get("children"):
            print(post.get("data").get("title"))
-   except Exception:
-       print(None)
+   except (KeyError, TypeError):
+       print("None")
 
 
 if __name__ == "__main__":
