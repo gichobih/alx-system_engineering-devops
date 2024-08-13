@@ -6,26 +6,33 @@ titles of the first 10 hot posts listed for a given subreddit.
 """
 
 import requests
-from sys import argv
 
 def top_ten(subreddit):
     """
-    Returns the top ten posts from a given subreddit.
+    Prints the titles of the first 10 hot posts listed for a given subreddit.
+    
+    Args:
+        subreddit (str): The name of the subreddit.
+    
+    Returns:
+        None
     """
-    usr = {"User-Agent": "lizzie"}
-    url = requests.get(
-        "https://www.reddit.com/r/{}/hot/.json?limit=10".format(subreddit),
-        headers=usr,
-        allow_redirects=False
-    ).json()
+    usr = {"User-Agent": "custom-user-agent"}
+    url = "https://www.reddit.com/r/{}/hot/.json?limit=10".format(subreddit)
+    response = requests.get(url, headers=usr, allow_redirects=False)
+
+    if response.status_code != 200:
+        print("None")
+        return
 
     try:
-        for post in url.get("data").get("children"):
-            print(post.get("data").get("title"))
-    except (KeyError, TypeError):
+        posts = response.json().get("data", {}).get("children", [])
+        if not posts:
+            print("None")
+            return
+
+        for post in posts:
+            print(post.get("data", {}).get("title"))
+    except Exception:
         print("None")
-
-
-if __name__ == "__main__":
-    top_ten(argv[1])
 
