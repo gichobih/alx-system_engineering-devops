@@ -1,31 +1,45 @@
 #!/usr/bin/python3
-"""Contains recurse function"""
+
+"""
+Function that recursively queries the Reddit API and returns
+a list of titles of all hot articles for a given subreddit.
+"""
+
 import requests
 
-
-def recurse(subreddit, hot_list=[], after="", count=0):
-    """Returns a list of titles of all hot posts on a given subreddit."""
+def recurse(subreddit, hot_list=[], after=None):
+    """
+    Recursively returns a list of titles of all hot articles
+    for a given subreddit.
+    
+    Args:
+        subreddit (str): The name of the subreddit.
+        hot_list (list): The list of hot article titles. Defaults to an empty list.
+        after (str): The "after" key for pagination. Defaults to None.
+    
+    Returns:
+        list: List of titles of hot articles, or None if no results found.
+    """
+    usr = {"User-Agent": "lizzie"}
     url = "https://www.reddit.com/r/{}/hot/.json".format(subreddit)
-    headers = {
-        "User-Agent": "0x16-api_advanced:project:\
-v1.0.0 (by /u/firdaus_cartoon_jr)"
-    }
-    params = {
-        "after": after,
-        "count": count,
-        "limit": 100
-    }
-    response = requests.get(url, headers=headers, params=params,
-                            allow_redirects=False)
-    if response.status_code == 404:
+    params = {"limit": 100, "after": after}
+    response = requests.get(url, headers=usr, params=params, allow_redirects=False)
+
+    if response.status_code != 200:
         return None
 
-    results = response.json().get("data")
-    after = results.get("after")
-    count += results.get("dist")
-    for c in results.get("children"):
-        hot_list.append(c.get("data").get("title"))
+    data = response.json().get("data", {})
+    after = data.get("after")
+    children = data.get("children", [])
 
-    if after is not None:
-        return recurse(subreddit, hot_list, after, count)
-    return hot_list
+    if not children and not after:
+        return hot_list if hot_list else None
+
+    hot_list.extend([post.get("data").get("title") for post in children])
+
+    if after:
+        return recurse(subreddit, hot_list, after)
+    else:
+        return hot_list
+
+
