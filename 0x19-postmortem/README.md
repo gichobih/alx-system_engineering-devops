@@ -1,4 +1,4 @@
-##Issue Summary.
+## Issue Summary
 
 Duration of the Outage:
 Start Time: 2024-08-16 14:00 UTC
@@ -9,7 +9,9 @@ The company’s main web application, which serves as a platform for users to ma
 Root Cause:
 A misconfiguration in the Nginx load balancer caused it to fail to distribute traffic properly. The issue stemmed from an erroneous update to the load balancer's configuration file, where a syntax error led to the failure of the load balancer to forward traffic to the backend servers.
 
-##Timeline
+## Timeline
+
+
 14:00 UTC:
 The issue was detected when an automatic alert was triggered by the monitoring system, indicating a sudden drop in traffic to the web servers.
 14:02 UTC:
@@ -27,13 +29,17 @@ The erroneous configuration was corrected, and the Nginx service was restarted s
 14:45 UTC:
 The outage was declared resolved after monitoring confirmed that the service was fully operational and user access was restored.
 
-##Root Cause and Resolution
+## Root Cause and Resolution
+
+
 Root Cause:
 The root cause of the outage was a syntax error in the Nginx configuration file. During a routine update, a configuration change was made to the load balancer to optimize traffic distribution. However, a small but critical syntax error in the file caused Nginx to fail to start, which in turn prevented it from forwarding traffic to the web servers. The error went unnoticed during the update process due to a lack of automated validation checks on the configuration files.
 Resolution:
 The DevOps team corrected the syntax error in the Nginx configuration file. Once the configuration was corrected, the Nginx service was restarted, and traffic flow was restored. The update process has since been amended to include an automated syntax validation step to prevent similar issues in the future.
 
-##Corrective and Preventative Measures
+## Corrective and Preventative Measures
+
+
 Improvements and Fixes:
 Implement automated syntax validation for Nginx configuration files before they are applied to production.
 Enhance the monitoring system to detect configuration issues specifically related to load balancer health.
